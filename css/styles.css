@@ -1,0 +1,905 @@
+/*---------------| GLOBAL |---------------------------
+  Global CSS variables and colors.
+----------------------------------------------------*/
+
+:root {
+  --CornerColor: #a3a3a3;
+  --BorderColor: #212121;
+  --accentColor: #0f0f0f;
+  --BackgroundColor: #050505;
+
+  --ButtonColor: #0f0f0f;
+  --ButtonHoverColor: #212121;
+  --TextColor: #ddd;
+  --TextGlowColor: #777777; /* jesus? */
+  
+  --CommOpenColor: #0f0;
+  --CommCloseColor: #f00; 
+  --ButtonCount: 1;
+}
+
+
+/*---------------| GENERAL |--------------------------
+  General styling and master stuff.
+----------------------------------------------------*/
+
+* {
+  font-family:"DM Mono";
+  color: var(--TextColor);
+  outline: none;
+  overflow: hidden;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  resize:none;
+  text-transform: uppercase;
+  text-shadow: var(--TextGlowColor) 0 0 1vh;
+}
+
+body {
+  height: 98svh;
+  margin: 1svh;
+  border: 0;
+  background-color: var(--BackgroundColor);
+}
+
+#color_distortion {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: blue !important;
+  mix-blend-mode: saturation;
+}
+
+#crt_scan_fx {
+  content: "";
+  position: absolute;
+  background: linear-gradient(white, black, white);
+  background-size: 100% 200%;
+  opacity: 0.2;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  animation: rainbowScroll 10s linear infinite;
+}
+
+::selection {
+  background: var(--TextColor);
+  color: var(--BackgroundColor)
+}
+
+a {
+  text-decoration: none;
+}
+
+.outlined { /* Thanks to Matt: https://github.com/rotisseriechicken */
+  border: 1px solid var(--BorderColor);
+  background:
+      linear-gradient(to right,  var(--CornerColor) 1px, transparent 1px) 0    0,
+      linear-gradient(to right,  var(--CornerColor) 1px, transparent 1px) 0    100%,
+      linear-gradient(to left,   var(--CornerColor) 1px, transparent 1px) 100% 0,
+      linear-gradient(to left,   var(--CornerColor) 1px, transparent 1px) 100% 100%,
+      linear-gradient(to bottom, var(--CornerColor) 1px, transparent 1px) 0    0,
+      linear-gradient(to bottom, var(--CornerColor) 1px, transparent 1px) 100% 0,
+      linear-gradient(to top,    var(--CornerColor) 1px, transparent 1px) 0    100%,
+      linear-gradient(to top,    var(--CornerColor) 1px, transparent 1px) 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.shown {
+  animation: flicker_frames 0.2s;
+}
+
+.unfiltered {
+  filter: none !important;
+}
+
+.unfiltered2 {
+  filter: none !important;
+}
+
+.selectable {
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+a {
+  color: #8f8 !important;
+}
+
+.crt {
+  content:""
+}
+
+.crt::after { /* https://aleclownes.com/2017/02/01/crt-display.html */
+  content:"";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: 
+      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+      linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/*---------------| LANDING |-------------------------- 
+  Enter site button and hidden stuff.
+----------------------------------------------------*/
+
+#desktop {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  background-color: var(--BackgroundColor);
+}
+
+#landing {
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: -1;
+  background-color: var(--BackgroundColor)
+}
+
+#enter_button {
+  width: 34vh;
+  height: 5vh;
+  background-color: var(--ButtonColor);
+
+  text-align: center;
+  vertical-align: middle;
+  user-select:none;
+  font-size: 4vh;
+  cursor: pointer;
+  pointer-events: all !important
+}
+
+#enter_button:hover {
+    background-color: var(--ButtonHoverColor);
+}
+
+/*---------------| BUTTONS |--------------------------
+  External 8831 buttons and containers.
+----------------------------------------------------*/
+
+#button_container {
+  content: "";
+  width: 100%;
+  height: 31px;
+  position: relative;
+}
+
+#button_scroller {
+  position: absolute;
+  display: flex;
+  gap: 1vh;
+  animation: button_scroll calc(var(--ButtonCount) * 3s) infinite linear;
+}
+
+.external_button {
+  filter:grayscale(1);
+}
+
+.external_button:hover {
+  filter: none;
+  transform: scale(0.95);
+}
+
+/*---------------| TOPBAR |--------------------------- 
+  Title, header, and container of control panel.
+----------------------------------------------------*/
+
+header {
+  width: 100%;
+  height: 7.7vh;
+
+  display: flex;
+
+  flex-direction: row;
+  align-items: center;
+  gap: 2vh;
+}
+
+#site_title {
+  font-size: 7vh;
+}
+
+#page_title {
+  font-size: 5vh;
+  flex: 2;
+}
+
+/*---------------| CONTROL PANEL |-------------------- 
+  Volume slider, music toggle, and crt toggle.
+----------------------------------------------------*/
+
+#control_panel {
+  height: 80%;
+  aspect-ratio: 5.85; /* lol! */
+  display: flex;
+  gap: 1vh;
+}
+
+#volume_slider_wrapper {
+  padding: 1vh;
+  height: calc(100% - 2vh - 2px);
+  flex: 1;
+}
+
+#volume_slider {
+  width: 100%;
+  height: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--BackgroundColor);
+  margin: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+#volume_slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1vh;
+  appearance: none;
+  background-color: var(--accentColor);
+}
+
+#volume_slider::-moz-range-progress {
+  background-color: var(--TextColor);
+  width: 100%;
+  height: 1vh;
+}
+
+#volume_slider::-moz-range-track {
+  width: 100%;
+  height: 1vh;
+  background-color: var(--accentColor);
+}
+
+#volume_slider::-webkit-slider-thumb {
+  width: 1vh;
+  height: 3vh;
+  margin-top: -1vh;
+  appearance: none;
+  background-color: var(--TextColor);
+}
+
+#volume_slider::-moz-range-thumb {
+  width: 1vh;
+  height: 3vh;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--TextColor);
+}
+
+.toggle {
+  height: calc(100% - 2vh - 2px);
+  padding: 1vh;
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+
+.toggle_icon {
+  width: 100%;
+  margin-bottom: 1vh;
+}
+
+.toggle:hover {
+  background-color: var(--ButtonHoverColor);
+}
+
+.toggle:active {
+  background-color: var(--CornerColor);
+}
+
+/*---------------| SIDEBAR |-------------------------- 
+  Sidebar buttons, statistics, and external buttons.
+----------------------------------------------------*/
+
+#statistics {
+  width: calc(100% - 2vh);
+  padding: 1vh;
+  text-align: center;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+#statistics * {
+  width: 100%;
+}
+
+#navbar_icon {
+  width: calc(100% - 2vh);
+  padding: 1vh;
+  aspect-ratio: 1;
+  cursor: help;
+}
+
+
+.navbar_button {
+  width: calc(100% - 1vh);
+  height: 4vh;
+  padding-left: 1vh;
+  background-color: var(--ButtonColor);
+  text-align: left;
+  font-size: 3vh;
+  pointer-events: all !important;
+  cursor: pointer;
+  transition: all 0.03s ease-out;
+}
+
+.navbar_button:hover {
+    background-color: var(--ButtonHoverColor);
+    padding-left: 1.5vh;
+    width: calc(100% - 1.5vh);
+}
+
+.navbar_button:active {
+    background-color: var(--CornerColor)
+}
+
+.blood {
+  content: ""
+}
+
+.blood:hover {
+  color: #f00 !important;
+  border-color: #500 !important;
+  background-color: #300 !important;
+  text-shadow: #f00 0 0 1vh;
+}
+
+/*---------------| PAGE CONTENT |--------------------- 
+  Primary content wrapper and contents of such.
+----------------------------------------------------*/
+
+#wrapper {
+  width: calc(100% - 4vh - 2px);
+  height: calc(100% - 2vh - 2px);
+  position: relative;
+
+  padding: 2vh;
+  padding-top: 0;
+  display: flex;
+
+  flex-direction: column;
+}
+
+#content_wrapper {
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+  gap: 2vh;
+}
+
+main {
+  position:relative;
+  padding: 1vh;
+  flex: 2;
+}
+
+aside {
+  width: 22.5vh;
+  height: 100%;
+  padding: 1vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 1vh;
+}
+
+#context {
+  width: calc(100% - 2vh);
+  height: 3vh;
+  padding: 1vh;
+  padding-top: 0;
+  padding-bottom: 1.5vh;
+  font-size: 3.5vh;
+  background-color: var(--accentColor);
+}
+.page_content {
+  width: calc(100% - 2vh);
+  height: calc(100% - 8vh);
+  position: absolute;
+  top: 7vh;
+  scrollbar-width: none;
+}
+
+/*---------------| ABOUT ME |------------------------- 
+  Headshot, information, and textbox.
+----------------------------------------------------*/
+
+#about {
+  display:flex;
+  gap: 1vh;
+}
+
+#about_profile {
+  display: flex; flex-direction: column; gap: 1vh
+}
+
+#profile_headshot {
+  width: 35vh;
+  height: 60%;
+  position: relative;
+  display: block;
+}
+#profile_description {
+  padding: 1vh;
+  padding-top: 0.7vh;
+  font-size: 2.5vh;
+  position: relative;
+  flex: 1;
+}
+#profile_head {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  image-rendering: crisp-edges;
+  animation: head_bob 6s alternate infinite ease-in-out;
+}
+#profile_body {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  image-rendering: crisp-edges;
+}
+
+/*---------------|   ???   |-------------------------- 
+  The log.
+----------------------------------------------------*/
+#log {
+  display: flex;
+  gap: 1vh;
+}
+#log_content {
+  flex-grow: 1;
+  height: calc(100% - 2px - 2vh);
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+  overflow-y: scroll;
+  padding: 1vh;
+  font-size: 2vh;
+  text-transform: none;
+  text-align: center;
+  line-height: 3vh;
+  display:inline-block;
+
+}
+#log_list {
+  width: 25vh;
+  height: calc(100% - 2px - 2vh);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 1vh;
+  gap: 1vh;
+}
+#log_content * {
+  text-transform: none;
+  user-select: all;
+}
+.log_list_item {
+  width: 100%;
+  height: 4vh;
+  font-size: 3vh;
+  text-align: center;
+  text-wrap: nowrap;
+  background-color: var(--ButtonColor);
+  transition: all 0.03s ease-out;
+}
+.log_list_item:hover {
+  background-color: var(--ButtonHoverColor);
+  padding-right: 1.5vh;
+  width: calc(100% - 1.5vh);
+  cursor: pointer;
+}
+
+.logImage {
+  width: 70%;
+  height: auto;
+  margin-left: auto;
+}
+
+/*---------------| GALLERY |-------------------------- 
+  Art tiles, preview, timestamps, and information.
+----------------------------------------------------*/
+
+#gallery_wrapper {
+  width: calc(100% - 41.5vh);
+  height: calc(100% - 2px);
+  position: relative;
+
+  overflow: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+#gallery_info_wrapper {
+  width: 40vh;
+  height: calc(100%);
+  position:absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+#gallery_preview {
+  padding: 1px;
+}
+#gallery_preview_img {
+  width: 100%;
+  height: 100%;
+}
+#gallery_description {
+  padding: 1vh;
+  font-size: 2vh;
+  flex: 1;
+  text-transform: none;
+}
+#gallery_array {
+  width: calc(100% - 2vh);
+  padding: 1vh;
+  position:relative;
+
+  display: grid;
+  flex-flow: row wrap;
+  flex: 1;
+  gap: 1vh;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.gallery_item {
+  width: unset;
+  height: unset;
+  aspect-ratio: 1;
+  background-size: cover;
+  cursor: pointer;
+  pointer-events: all;
+  filter: grayscale(1) ;
+  background-position: 0.5vh 0.5vh;
+  background-size: calc(100% - 1vh) calc(100% - 1vh);
+}
+.gallery_item:hover {
+  filter: grayscale(0);
+  background-position: 0vh 0vh;
+  background-size: 100% 100%;
+}
+.gallery_item_date {
+  width: 100%;
+  height: 20%;
+  position: relative;
+  top: 0;
+  left: 0;
+  font-size: 1vw;
+  padding-left: 0.2vw;
+  border-bottom: 1px solid var(--BorderColor);
+  border-style: inset;
+}
+
+/*---------------| COMMISSIONS |---------------------- 
+  Status, styles, information, and pricing.
+----------------------------------------------------*/
+
+#commission {
+  display:flex;
+  flex-direction: column;
+  gap:1vh;
+}
+#commission_status {
+  width: calc(100% - 2px);
+  height: 4vh;
+  border: 1px solid var(--CommCloseColor);
+  background-color: color-mix(in srgb, var(--CommCloseColor), #000 80%);
+  color: var(--CommCloseColor) !important;
+  font-size: 3vh;
+  text-align: center;
+  text-shadow: #f00 0 0 1vh;
+}
+#commission_wrapper {
+  padding: 1vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  flex:1;
+}
+#commission_info {
+  height: 30vh;
+  font-size: 2vh;
+  display:flex;
+  gap:1vh;
+}
+.commission_info_box {
+  display: flex;
+  flex-direction: column;
+  gap:1vh
+}
+.commission_info_box_name {
+  text-align: center;
+}
+.commission_info_box_text {
+  padding: 1vh;
+  flex: 1;
+  text-transform: none;
+}
+.commission_preview {
+  width:100%
+}
+.commission_type {
+  background-size: 100%;
+  background-position-y: var(--M_YP);
+  font-size: 9vh;
+  text-align: center;
+  padding-top: 4vh;
+  filter:grayscale() brightness(0.2);
+  flex: 1;
+  cursor: pointer;
+  text-shadow: #000 0 0 1vh;
+}
+
+.commission_type:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 70%,rgba(255,255,255,1) 100%);
+  top: 0; left: 0;
+}
+
+.commission_type:hover {
+  filter: none;
+}
+
+/*---------------| LINKS |---------------------------- 
+  Contact information, websites, and handles.
+----------------------------------------------------*/
+
+#links {
+  display: flex;
+  flex-flow:column;
+  gap: 1vh;
+}
+.link {
+  width: calc(100% - 6vh - 2px);
+  padding: 3vh;
+  background-color: var(--ButtonColor);
+  display: flex;
+  align-items: center;
+  gap: 2vh;
+  flex: 1;
+  cursor: pointer;
+}
+.link_icon {
+  height: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+}
+.link:hover {
+  background-color: var(--ButtonHoverColor);
+}
+.link_handle {
+  text-align: right;
+  font-size: 3vh;
+  position:absolute;
+  right:0;
+  padding-right: 3vh;
+}
+
+/*---------------| GUESTBOOK |------------------------ 
+  This is going unused for now.
+----------------------------------------------------*/
+
+#guestbook {
+  display: flex;
+  gap: 1vh;
+}
+#guestbook_submission {
+  padding: 1vh;
+  display: flex;
+  gap: 1vh;
+  flex-direction: column;
+  width: 40vh;
+}
+.guestbook_submission_line {
+  width: 100%;
+  height: 3vh;
+  font-size: 2.3vh;
+  display: flex;
+}
+.guestbook_submission_line_label {
+  height: 100%;
+  border: none;
+  outline: none;
+  padding-left: 1vh;
+  background-color: var(--accentColor);
+}
+.guestbook_submission_line_entry {
+  height: 100%;
+  padding-left: 0.5vh;
+  flex:1;
+  background-color: var(--BackgroundColor);
+  border: none;
+  outline: none;
+  padding: 0;
+  font-size: inherit;
+}
+.guestbook_submission_line_entry:hover {
+  background-color: var(--accentColor);
+}
+.guestbook_submission_large {
+  flex: 1;
+  padding: 0.5vh;
+  font-size: 2vh;
+}
+.guestbook_submission_large:hover {
+  background-color: var(--accentColor);
+}
+#guestbook_submit {
+  height: 4vh;
+  border: solid 1px #8f8;
+  color: #8f8;
+  font-size: 3vh;
+  text-align: center;
+  background-color: #163316;
+  outline: none;
+}
+
+.guestbook_submission_submit:hover {
+  cursor: pointer;
+  background-color: #327532;
+}
+
+.guestbook_submission_submit:active {
+  background-color: #8f8;
+}
+#guestbook_entry_wrapper {
+  flex: 1;
+  overflow: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+#guestbook_entry_array {
+  padding: 1vh;
+  position:relative;
+
+  display: grid;
+  flex-flow: column;
+  flex: 1;
+  gap: 1vh;
+}
+.guestbook_entry {
+  width: calc(100% - 2vh - 1px);
+  padding: 1vh;
+  display: flex;
+  gap: 1vh;
+  flex-direction: column;
+}
+.guestbook_entry_header {
+  display:flex;
+  font-size: 3vh;
+  background-color: var(--accentColor);
+  padding-left: 1vh;
+  padding-right: 1vh;
+}
+
+.guestbook_entry_text {
+  font-size: 2vh;
+  padding-left: 1vh;
+  padding-right: 1vh;
+  overflow-wrap:break-word;
+}
+.guestbook_entry_footer {
+  font-size: 2vh;
+  background-color: var(--accentColor);
+  padding-left: 1vh;
+}
+
+/*---------------| ANIMATIONS |------------------------ 
+  Profile breathing, crt flicker, and button scroll.
+----------------------------------------------------*/
+
+@keyframes rainbowScroll {
+  0% {
+    background-position-y: 0vh;
+  }
+  100% {
+    background-position-y: 200vh;
+  }
+}
+
+@keyframes head_bob {
+  to { transform: translatey(-3%);}
+}
+
+@keyframes flicker_frames {
+  0% {
+    filter: brightness(4);
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    filter: brightness(1);
+    opacity: 1;
+  }
+}
+
+@keyframes button_scroll {
+  0% {
+    left:0px;
+  }
+  10% {
+    left: 0px;
+  }
+  50% {
+    left:calc((-88px * var(--ButtonCount) - (var(--ButtonCount) * 1vh)) + 88px + 1vh);
+  }
+  60% {
+    left:calc((-88px * var(--ButtonCount) - (var(--ButtonCount) * 1vh)) + 88px + 1vh);
+  }
+  100% {
+    left:0px;
+  }
+}
+
+@keyframes imageAppear {
+  0% {
+      filter: brightness(2) hue-rotate(70deg)
+  }
+  100% {
+      filter: none;
+  }
+}
+
+/*---------------| TYPEFACES |------------------------ 
+  DM Mono for now.
+----------------------------------------------------*/
+
+@font-face {
+  font-family: "DM Mono";
+  src:
+    local("DM Mono"),
+    url("../font/DMMono-Regular.woff2") format("woff2");
+}
